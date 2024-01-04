@@ -1,0 +1,9 @@
+test
+│   Curly.exe
+│
+└───libcurl
+        curl-ca-bundle.crt
+        libcurl-x64.def
+        libcurl-x64.dll
+
+curl-ca-bundle.crt, libcurl-x64.def & libcurl-x64.dll -> https://curl.se/windows/ Folder BIN

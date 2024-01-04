@@ -1,0 +1,203 @@
+<div class="contents">
+<h2 class="nroffsh">Curlcode</h2>
+<p class="level0">Almost all "easy" interface functions return a CURLcode error code. No matter what, using the <a class="emphasis" href="./curl_easy_setopt.html">curl_easy_setopt</a> option <a class="emphasis" href="./CURLOPT_ERRORBUFFER.html">CURLOPT_ERRORBUFFER</a> is a good idea as it gives you a human readable error string that may offer more details about the cause of the error than just the error code. <a class="emphasis" href="./curl_easy_strerror.html">curl_easy_strerror</a> can be called to get an error string from a given CURLcode number. </p>
+<p class="level0">CURLcode is one of the following: </p>
+<p class="level0"><a name="CURLEOK"></a><span class="nroffip">CURLE_OK (0)</span> </p>
+<p class="level1">All fine. Proceed as usual. </p>
+<p class="level0"><a name="CURLEUNSUPPORTEDPROTOCOL"></a><span class="nroffip">CURLE_UNSUPPORTED_PROTOCOL (1)</span> </p>
+<p class="level1">The URL you passed to libcurl used a protocol that this libcurl does not support. The support might be a compile-time option that you did not use, it can be a misspelled protocol string or just a protocol libcurl has no code for. </p>
+<p class="level0"><a name="CURLEFAILEDINIT"></a><span class="nroffip">CURLE_FAILED_INIT (2)</span> </p>
+<p class="level1">Early initialization code failed. This is likely to be an internal error or problem, or a resource problem where something fundamental could not get done at init time. </p>
+<p class="level0"><a name="CURLEURLMALFORMAT"></a><span class="nroffip">CURLE_URL_MALFORMAT (3)</span> </p>
+<p class="level1">The URL was not properly formatted. </p>
+<p class="level0"><a name="CURLENOTBUILTIN"></a><span class="nroffip">CURLE_NOT_BUILT_IN (4)</span> </p>
+<p class="level1">A requested feature, protocol or option was not found built-in in this libcurl due to a build-time decision. This means that a feature or option was not enabled or explicitly disabled when libcurl was built and in order to get it to function you have to get a rebuilt libcurl. </p>
+<p class="level0"><a name="CURLECOULDNTRESOLVEPROXY"></a><span class="nroffip">CURLE_COULDNT_RESOLVE_PROXY (5)</span> </p>
+<p class="level1">Could not resolve proxy. The given proxy host could not be resolved. </p>
+<p class="level0"><a name="CURLECOULDNTRESOLVEHOST"></a><span class="nroffip">CURLE_COULDNT_RESOLVE_HOST (6)</span> </p>
+<p class="level1">Could not resolve host. The given remote host was not resolved. </p>
+<p class="level0"><a name="CURLECOULDNTCONNECT"></a><span class="nroffip">CURLE_COULDNT_CONNECT (7)</span> </p>
+<p class="level1">Failed to connect() to host or proxy. </p>
+<p class="level0"><a name="CURLEWEIRDSERVERREPLY"></a><span class="nroffip">CURLE_WEIRD_SERVER_REPLY (8)</span> </p>
+<p class="level1">The server sent data libcurl could not parse. This error code was known as <span class="emphasis">CURLE_FTP_WEIRD_SERVER_REPLY</span> before 7.51.0. </p>
+<p class="level0"><a name="CURLEREMOTEACCESSDENIED"></a><span class="nroffip">CURLE_REMOTE_ACCESS_DENIED (9)</span> </p>
+<p class="level1">We were denied access to the resource given in the URL. For FTP, this occurs while trying to change to the remote directory. </p>
+<p class="level0"><a name="CURLEFTPACCEPTFAILED"></a><span class="nroffip">CURLE_FTP_ACCEPT_FAILED (10)</span> </p>
+<p class="level1">While waiting for the server to connect back when an active FTP session is used, an error code was sent over the control connection or similar. </p>
+<p class="level0"><a name="CURLEFTPWEIRDPASSREPLY"></a><span class="nroffip">CURLE_FTP_WEIRD_PASS_REPLY (11)</span> </p>
+<p class="level1">After having sent the FTP password to the server, libcurl expects a proper reply. This error code indicates that an unexpected code was returned. </p>
+<p class="level0"><a name="CURLEFTPACCEPTTIMEOUT"></a><span class="nroffip">CURLE_FTP_ACCEPT_TIMEOUT (12)</span> </p>
+<p class="level1">During an active FTP session while waiting for the server to connect, the CURLOPT_ACCEPTTIMEOUT_MS (or the internal default) timeout expired. </p>
+<p class="level0"><a name="CURLEFTPWEIRDPASVREPLY"></a><span class="nroffip">CURLE_FTP_WEIRD_PASV_REPLY (13)</span> </p>
+<p class="level1">libcurl failed to get a sensible result back from the server as a response to either a PASV or a EPSV command. The server is flawed. </p>
+<p class="level0"><a name="CURLEFTPWEIRD227FORMAT"></a><span class="nroffip">CURLE_FTP_WEIRD_227_FORMAT (14)</span> </p>
+<p class="level1">FTP servers return a 227-line as a response to a PASV command. If libcurl fails to parse that line, this return code is passed back. </p>
+<p class="level0"><a name="CURLEFTPCANTGETHOST"></a><span class="nroffip">CURLE_FTP_CANT_GET_HOST (15)</span> </p>
+<p class="level1">An internal failure to lookup the host used for the new connection. </p>
+<p class="level0"><a name="CURLEHTTP2"></a><span class="nroffip">CURLE_HTTP2 (16)</span> </p>
+<p class="level1">A problem was detected in the HTTP2 framing layer. This is somewhat generic and can be one out of several problems, see the error buffer for details. </p>
+<p class="level0"><a name="CURLEFTPCOULDNTSETTYPE"></a><span class="nroffip">CURLE_FTP_COULDNT_SET_TYPE (17)</span> </p>
+<p class="level1">Received an error when trying to set the transfer mode to binary or ASCII. </p>
+<p class="level0"><a name="CURLEPARTIALFILE"></a><span class="nroffip">CURLE_PARTIAL_FILE (18)</span> </p>
+<p class="level1">A file transfer was shorter or larger than expected. This happens when the server first reports an expected transfer size, and then delivers data that does not match the previously given size. </p>
+<p class="level0"><a name="CURLEFTPCOULDNTRETRFILE"></a><span class="nroffip">CURLE_FTP_COULDNT_RETR_FILE (19)</span> </p>
+<p class="level1">This was either a weird reply to a 'RETR' command or a zero byte transfer complete. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (20)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLEQUOTEERROR"></a><span class="nroffip">CURLE_QUOTE_ERROR (21)</span> </p>
+<p class="level1">When sending custom "QUOTE" commands to the remote server, one of the commands returned an error code that was 400 or higher (for FTP) or otherwise indicated unsuccessful completion of the command. </p>
+<p class="level0"><a name="CURLEHTTPRETURNEDERROR"></a><span class="nroffip">CURLE_HTTP_RETURNED_ERROR (22)</span> </p>
+<p class="level1">This is returned if CURLOPT_FAILONERROR is set TRUE and the HTTP server returns an error code that is &gt;= 400. </p>
+<p class="level0"><a name="CURLEWRITEERROR"></a><span class="nroffip">CURLE_WRITE_ERROR (23)</span> </p>
+<p class="level1">An error occurred when writing received data to a local file, or an error was returned to libcurl from a write callback. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (24)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLEUPLOADFAILED"></a><span class="nroffip">CURLE_UPLOAD_FAILED (25)</span> </p>
+<p class="level1">Failed starting the upload. For FTP, the server typically denied the STOR command. The error buffer usually contains the server's explanation for this. </p>
+<p class="level0"><a name="CURLEREADERROR"></a><span class="nroffip">CURLE_READ_ERROR (26)</span> </p>
+<p class="level1">There was a problem reading a local file or an error returned by the read callback. </p>
+<p class="level0"><a name="CURLEOUTOFMEMORY"></a><span class="nroffip">CURLE_OUT_OF_MEMORY (27)</span> </p>
+<p class="level1">A memory allocation request failed. This is serious badness and things are severely screwed up if this ever occurs. </p>
+<p class="level0"><a name="CURLEOPERATIONTIMEDOUT"></a><span class="nroffip">CURLE_OPERATION_TIMEDOUT (28)</span> </p>
+<p class="level1">Operation timeout. The specified time-out period was reached according to the conditions. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (29)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLEFTPPORTFAILED"></a><span class="nroffip">CURLE_FTP_PORT_FAILED (30)</span> </p>
+<p class="level1">The FTP PORT command returned error. This mostly happens when you have not specified a good enough address for libcurl to use. See CURLOPT_FTPPORT. </p>
+<p class="level0"><a name="CURLEFTPCOULDNTUSEREST"></a><span class="nroffip">CURLE_FTP_COULDNT_USE_REST (31)</span> </p>
+<p class="level1">The FTP REST command returned error. This should never happen if the server is sane. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (32)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLERANGEERROR"></a><span class="nroffip">CURLE_RANGE_ERROR (33)</span> </p>
+<p class="level1">The server does not support or accept range requests. </p>
+<p class="level0"><a name="CURLEHTTPPOSTERROR"></a><span class="nroffip">CURLE_HTTP_POST_ERROR (34)</span> </p>
+<p class="level1">This is an odd error that mainly occurs due to internal confusion. </p>
+<p class="level0"><a name="CURLESSLCONNECTERROR"></a><span class="nroffip">CURLE_SSL_CONNECT_ERROR (35)</span> </p>
+<p class="level1">A problem occurred somewhere in the SSL/TLS handshake. You really want the error buffer and read the message there as it pinpoints the problem slightly more. Could be certificates (file formats, paths, permissions), passwords, and others. </p>
+<p class="level0"><a name="CURLEBADDOWNLOADRESUME"></a><span class="nroffip">CURLE_BAD_DOWNLOAD_RESUME (36)</span> </p>
+<p class="level1">The download could not be resumed because the specified offset was out of the file boundary. </p>
+<p class="level0"><a name="CURLEFILECOULDNTREADFILE"></a><span class="nroffip">CURLE_FILE_COULDNT_READ_FILE (37)</span> </p>
+<p class="level1">A file given with FILE:// could not be opened. Most likely because the file path does not identify an existing file. Did you check file permissions? </p>
+<p class="level0"><a name="CURLELDAPCANNOTBIND"></a><span class="nroffip">CURLE_LDAP_CANNOT_BIND (38)</span> </p>
+<p class="level1">LDAP cannot bind. LDAP bind operation failed. </p>
+<p class="level0"><a name="CURLELDAPSEARCHFAILED"></a><span class="nroffip">CURLE_LDAP_SEARCH_FAILED (39)</span> </p>
+<p class="level1">LDAP search failed. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (40)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLEFUNCTIONNOTFOUND"></a><span class="nroffip">CURLE_FUNCTION_NOT_FOUND (41)</span> </p>
+<p class="level1">Function not found. A required zlib function was not found. </p>
+<p class="level0"><a name="CURLEABORTEDBYCALLBACK"></a><span class="nroffip">CURLE_ABORTED_BY_CALLBACK (42)</span> </p>
+<p class="level1">Aborted by callback. A callback returned "abort" to libcurl. </p>
+<p class="level0"><a name="CURLEBADFUNCTIONARGUMENT"></a><span class="nroffip">CURLE_BAD_FUNCTION_ARGUMENT (43)</span> </p>
+<p class="level1">A function was called with a bad parameter. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (44)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLEINTERFACEFAILED"></a><span class="nroffip">CURLE_INTERFACE_FAILED (45)</span> </p>
+<p class="level1">Interface error. A specified outgoing interface could not be used. Set which interface to use for outgoing connections' source IP address with CURLOPT_INTERFACE. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (46)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLETOOMANYREDIRECTS"></a><span class="nroffip">CURLE_TOO_MANY_REDIRECTS (47)</span> </p>
+<p class="level1">Too many redirects. When following redirects, libcurl hit the maximum amount. Set your limit with CURLOPT_MAXREDIRS. </p>
+<p class="level0"><a name="CURLEUNKNOWNOPTION"></a><span class="nroffip">CURLE_UNKNOWN_OPTION (48)</span> </p>
+<p class="level1">An option passed to libcurl is not recognized/known. Refer to the appropriate documentation. This is most likely a problem in the program that uses libcurl. The error buffer might contain more specific information about which exact option it concerns. </p>
+<p class="level0"><a name="CURLESETOPTOPTIONSYNTAX"></a><span class="nroffip">CURLE_SETOPT_OPTION_SYNTAX (49)</span> </p>
+<p class="level1">An option passed in to a setopt was wrongly formatted. See error message for details about what option. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete errors (50-51)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLEGOTNOTHING"></a><span class="nroffip">CURLE_GOT_NOTHING (52)</span> </p>
+<p class="level1">Nothing was returned from the server, and under the circumstances, getting nothing is considered an error. </p>
+<p class="level0"><a name="CURLESSLENGINENOTFOUND"></a><span class="nroffip">CURLE_SSL_ENGINE_NOTFOUND (53)</span> </p>
+<p class="level1">The specified crypto engine was not found. </p>
+<p class="level0"><a name="CURLESSLENGINESETFAILED"></a><span class="nroffip">CURLE_SSL_ENGINE_SETFAILED (54)</span> </p>
+<p class="level1">Failed setting the selected SSL crypto engine as default. </p>
+<p class="level0"><a name="CURLESENDERROR"></a><span class="nroffip">CURLE_SEND_ERROR (55)</span> </p>
+<p class="level1">Failed sending network data. </p>
+<p class="level0"><a name="CURLERECVERROR"></a><span class="nroffip">CURLE_RECV_ERROR (56)</span> </p>
+<p class="level1">Failure with receiving network data. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (57)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLESSLCERTPROBLEM"></a><span class="nroffip">CURLE_SSL_CERTPROBLEM (58)</span> </p>
+<p class="level1">problem with the local client certificate. </p>
+<p class="level0"><a name="CURLESSLCIPHER"></a><span class="nroffip">CURLE_SSL_CIPHER (59)</span> </p>
+<p class="level1">Could not use specified cipher. </p>
+<p class="level0"><a name="CURLEPEERFAILEDVERIFICATION"></a><span class="nroffip">CURLE_PEER_FAILED_VERIFICATION (60)</span> </p>
+<p class="level1">The remote server's SSL certificate or SSH fingerprint was deemed not OK. This error code has been unified with CURLE_SSL_CACERT since 7.62.0. Its previous value was 51. </p>
+<p class="level0"><a name="CURLEBADCONTENTENCODING"></a><span class="nroffip">CURLE_BAD_CONTENT_ENCODING (61)</span> </p>
+<p class="level1">Unrecognized transfer encoding. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (62)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLEFILESIZEEXCEEDED"></a><span class="nroffip">CURLE_FILESIZE_EXCEEDED (63)</span> </p>
+<p class="level1">Maximum file size exceeded. </p>
+<p class="level0"><a name="CURLEUSESSLFAILED"></a><span class="nroffip">CURLE_USE_SSL_FAILED (64)</span> </p>
+<p class="level1">Requested FTP SSL level failed. </p>
+<p class="level0"><a name="CURLESENDFAILREWIND"></a><span class="nroffip">CURLE_SEND_FAIL_REWIND (65)</span> </p>
+<p class="level1">When doing a send operation curl had to rewind the data to retransmit, but the rewinding operation failed. </p>
+<p class="level0"><a name="CURLESSLENGINEINITFAILED"></a><span class="nroffip">CURLE_SSL_ENGINE_INITFAILED (66)</span> </p>
+<p class="level1">Initiating the SSL Engine failed. </p>
+<p class="level0"><a name="CURLELOGINDENIED"></a><span class="nroffip">CURLE_LOGIN_DENIED (67)</span> </p>
+<p class="level1">The remote server denied curl to login (Added in 7.13.1) </p>
+<p class="level0"><a name="CURLETFTPNOTFOUND"></a><span class="nroffip">CURLE_TFTP_NOTFOUND (68)</span> </p>
+<p class="level1">File not found on TFTP server. </p>
+<p class="level0"><a name="CURLETFTPPERM"></a><span class="nroffip">CURLE_TFTP_PERM (69)</span> </p>
+<p class="level1">Permission problem on TFTP server. </p>
+<p class="level0"><a name="CURLEREMOTEDISKFULL"></a><span class="nroffip">CURLE_REMOTE_DISK_FULL (70)</span> </p>
+<p class="level1">Out of disk space on the server. </p>
+<p class="level0"><a name="CURLETFTPILLEGAL"></a><span class="nroffip">CURLE_TFTP_ILLEGAL (71)</span> </p>
+<p class="level1">Illegal TFTP operation. </p>
+<p class="level0"><a name="CURLETFTPUNKNOWNID"></a><span class="nroffip">CURLE_TFTP_UNKNOWNID (72)</span> </p>
+<p class="level1">Unknown TFTP transfer ID. </p>
+<p class="level0"><a name="CURLEREMOTEFILEEXISTS"></a><span class="nroffip">CURLE_REMOTE_FILE_EXISTS (73)</span> </p>
+<p class="level1">File already exists and is not overwritten. </p>
+<p class="level0"><a name="CURLETFTPNOSUCHUSER"></a><span class="nroffip">CURLE_TFTP_NOSUCHUSER (74)</span> </p>
+<p class="level1">This error should never be returned by a properly functioning TFTP server. </p>
+<p class="level0"><a name="Obsolete"></a><span class="nroffip">Obsolete error (75-76)</span> </p>
+<p class="level1">Not used in modern versions. </p>
+<p class="level0"><a name="CURLESSLCACERTBADFILE"></a><span class="nroffip">CURLE_SSL_CACERT_BADFILE (77)</span> </p>
+<p class="level1">Problem with reading the SSL CA cert (path? access rights?) </p>
+<p class="level0"><a name="CURLEREMOTEFILENOTFOUND"></a><span class="nroffip">CURLE_REMOTE_FILE_NOT_FOUND (78)</span> </p>
+<p class="level1">The resource referenced in the URL does not exist. </p>
+<p class="level0"><a name="CURLESSH"></a><span class="nroffip">CURLE_SSH (79)</span> </p>
+<p class="level1">An unspecified error occurred during the SSH session. </p>
+<p class="level0"><a name="CURLESSLSHUTDOWNFAILED"></a><span class="nroffip">CURLE_SSL_SHUTDOWN_FAILED (80)</span> </p>
+<p class="level1">Failed to shut down the SSL connection. </p>
+<p class="level0"><a name="CURLEAGAIN"></a><span class="nroffip">CURLE_AGAIN (81)</span> </p>
+<p class="level1">Socket is not ready for send/recv wait till it's ready and try again. This return code is only returned from curl_easy_send (Added in 7.18.2) </p>
+<p class="level0"><a name="CURLESSLCRLBADFILE"></a><span class="nroffip">CURLE_SSL_CRL_BADFILE (82)</span> </p>
+<p class="level1">Failed to load CRL file (Added in 7.19.0) </p>
+<p class="level0"><a name="CURLESSLISSUERERROR"></a><span class="nroffip">CURLE_SSL_ISSUER_ERROR (83)</span> </p>
+<p class="level1">Issuer check failed (Added in 7.19.0) </p>
+<p class="level0"><a name="CURLEFTPPRETFAILED"></a><span class="nroffip">CURLE_FTP_PRET_FAILED (84)</span> </p>
+<p class="level1">The FTP server does not understand the PRET command at all or does not support the given argument. Be careful when using CURLOPT_CUSTOMREQUEST, a custom LIST command is sent with the PRET command before PASV as well. (Added in 7.20.0) </p>
+<p class="level0"><a name="CURLERTSPCSEQERROR"></a><span class="nroffip">CURLE_RTSP_CSEQ_ERROR (85)</span> </p>
+<p class="level1">Mismatch of RTSP CSeq numbers. </p>
+<p class="level0"><a name="CURLERTSPSESSIONERROR"></a><span class="nroffip">CURLE_RTSP_SESSION_ERROR (86)</span> </p>
+<p class="level1">Mismatch of RTSP Session Identifiers. </p>
+<p class="level0"><a name="CURLEFTPBADFILELIST"></a><span class="nroffip">CURLE_FTP_BAD_FILE_LIST (87)</span> </p>
+<p class="level1">Unable to parse FTP file list (during FTP wildcard downloading). </p>
+<p class="level0"><a name="CURLECHUNKFAILED"></a><span class="nroffip">CURLE_CHUNK_FAILED (88)</span> </p>
+<p class="level1">Chunk callback reported error. </p>
+<p class="level0"><a name="CURLENOCONNECTIONAVAILABLE"></a><span class="nroffip">CURLE_NO_CONNECTION_AVAILABLE (89)</span> </p>
+<p class="level1">(For internal use only, is never returned by libcurl) No connection available, the session is queued. (added in 7.30.0) </p>
+<p class="level0"><a name="CURLESSLPINNEDPUBKEYNOTMATCH"></a><span class="nroffip">CURLE_SSL_PINNEDPUBKEYNOTMATCH (90)</span> </p>
+<p class="level1">Failed to match the pinned key specified with CURLOPT_PINNEDPUBLICKEY. </p>
+<p class="level0"><a name="CURLESSLINVALIDCERTSTATUS"></a><span class="nroffip">CURLE_SSL_INVALIDCERTSTATUS (91)</span> </p>
+<p class="level1">Status returned failure when asked with CURLOPT_SSL_VERIFYSTATUS. </p>
+<p class="level0"><a name="CURLEHTTP2STREAM"></a><span class="nroffip">CURLE_HTTP2_STREAM (92)</span> </p>
+<p class="level1">Stream error in the HTTP/2 framing layer. </p>
+<p class="level0"><a name="CURLERECURSIVEAPICALL"></a><span class="nroffip">CURLE_RECURSIVE_API_CALL (93)</span> </p>
+<p class="level1">An API function was called from inside a callback. </p>
+<p class="level0"><a name="CURLEAUTHERROR"></a><span class="nroffip">CURLE_AUTH_ERROR (94)</span> </p>
+<p class="level1">An authentication function returned an error. </p>
+<p class="level0"><a name="CURLEHTTP3"></a><span class="nroffip">CURLE_HTTP3 (95)</span> </p>
+<p class="level1">A problem was detected in the HTTP/3 layer. This is somewhat generic and can be one out of several problems, see the error buffer for details. </p>
+<p class="level0"><a name="CURLEQUICCONNECTERROR"></a><span class="nroffip">CURLE_QUIC_CONNECT_ERROR (96)</span> </p>
+<p class="level1">QUIC connection error. This error may be caused by an SSL library error. QUIC is the protocol used for HTTP/3 transfers. </p>
+<p class="level0"><a name="CURLEPROXY"></a><span class="nroffip">CURLE_PROXY (97)</span> </p>
+<p class="level1">Proxy handshake error. CURLINFO_PROXY_ERROR provides extra details on the specific problem. </p>
+<p class="level0"><a name="CURLESSLCLIENTCERT"></a><span class="nroffip">CURLE_SSL_CLIENTCERT (98)</span> </p>
+<p class="level1">SSL Client Certificate required. </p>
+<p class="level0"><a name="CURLEUNRECOVERABLEPOLL"></a><span class="nroffip">CURLE_UNRECOVERABLE_POLL (99)</span> </p>
+<p class="level1">An internal call to poll() or select() returned error that is not recoverable. </p>
+<p class="level0"><a name="CURLETOOLARGE"></a><span class="nroffip">CURLE_TOO_LARGE (100)</span> </p>
+<p class="level1">A value or data field grew larger than allowed. </p><a name="CURLMcode"></a>
+</div>
